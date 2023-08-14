@@ -16,10 +16,10 @@ public class Member extends Person{
 
 
     public Member(String name, Role role, int member_id,
-                  int book_limit, String address, String phone_number){
+                  String address, String phone_number){
         super(name, role);
         this.member_id = member_id;
-        this.book_limit = book_limit;
+        this.book_limit = 5;
         this.address = address;
         this.phone_number = phone_number;
         this.books_issued=new HashSet<>();

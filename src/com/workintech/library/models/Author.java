@@ -1,32 +1,35 @@
 package com.workintech.library.models;
 
-import java.util.Map;
+import java.util.*;
 
 public class Author extends Person{
 
-    private Map<Integer, Book> bookMap;
+    private Set<Book> bookList;
 
 
-    public Author(String name,Map<Integer, Book> bookMap) {
+    public Author(String name) {
         super(name, Role.AUTHOR);
-        this.bookMap=bookMap;
+        this.bookList=new HashSet<>();
     }
 
 
-    public Map<Integer, Book> getBookMap() {
-        return bookMap;
+    public Set<Book> getBookList() {
+        return bookList;
     }
 
-    public void setBookMap(Map<Integer, Book> bookMap) {
-        this.bookMap = bookMap;
+    public void setBookList(Set<Book> bookList) {
+        this.bookList = bookList;
     }
 
-
+    public void addBook(Book book) {
+        bookList.add(book);
+    }
 
     @Override
     public String toString() {
         return "Author{" +
-                "bookMap=" + bookMap +
+               "Name: " + super.getName()  + "\n" +
+                " bookList=" + bookList +
                 '}';
     }
 }

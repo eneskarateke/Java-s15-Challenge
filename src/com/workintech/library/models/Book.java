@@ -4,20 +4,22 @@ import java.util.Objects;
 
 public class Book {
     private int book_id;
-    private String author;
+    private Author author;
     private String title;
 
     private Status status;
     private Category category;
     private Member borrower;
 
-    public Book(int book_id, String author, String title, Status status, Category category) {
+    public Book(int book_id, Author author, String title, Status status, Category category) {
         this.book_id = book_id;
         this.author = author;
         this.title = title;
         this.status = status;
         this.category = category;
         this.borrower=null;
+        author.addBook(this);
+
     }
 
     public int getBook_id() {
@@ -28,11 +30,11 @@ public class Book {
         this.book_id = book_id;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -85,7 +87,7 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "book_id=" + book_id +
-                ", author='" + author + '\'' +
+                ", author='" + author.getName() + '\'' +
                 ", title='" + title + '\'' +
                 ", status=" + status +
                 ", category=" + category +

@@ -2,7 +2,7 @@ package com.workintech.library.models;
 
 import java.util.*;
 
-public class Library {
+public class Library implements LibraryInterface {
     private Map<Integer,Book> books;
 
     public Library(Map<Integer, Book> books) {
@@ -17,6 +17,19 @@ public class Library {
     public void setBooks(Map<Integer, Book> books) {
         this.books = books;
     }
+    public boolean bookExists(Book book) {
+        return books.containsValue(book);
+    }
+    public void printBooks() {
+
+        for (Book book: books.values()
+             ) {
+            System.out.println("Book id:" + book.getBook_id() + "\n"
+                    + "Author:" + book.getAuthor() + "\n"
+                    +"Title: " + book.getTitle() +  "\n");
+        };
+    }
+
     public void addBook(int id,Book book){
 
         books.put(id,book);
@@ -32,42 +45,36 @@ public class Library {
 
     }
 
-    public Set<Book> getBooksByCategory(Category category) {
+    public void getBooksByCategory(Category category) {
 
-        Set<Book> booksInCategory = new HashSet<>();
-
-        for (Book book : books.values()) {
-            if (book.getCategory() == category) {
-                booksInCategory.add(book);
+        try{
+            for (Book book : books.values()) {
+                if (book.getCategory() == category) {
+                    System.out.println(book);            }
             }
+        }  catch (Exception exception) {
+            System.out.println("Kategoriye göre kitaplar getirilemedi..!");
         }
-
-        return booksInCategory;
     }
 
-    public Set<Book> getBooksByAuthor(String author) {
+
+    public void getBooksByAuthor(Author author) {
 
         try {
-            Set<Book> booksByAuthor = new HashSet<>();
-
-            for (Book book : books.values()) {
-                if (book.getAuthor().equals(author)) {
-                    booksByAuthor.add(book);
-                }
+            for (Book book : author.getBookList()) {
+                System.out.println(book);
             }
 
-            return booksByAuthor;
 
         } catch (Exception exception) {
-            System.out.println("System error.!");
-            return null;
+            System.out.println("Yazara göre kitaplar getirilemedi..!");
         }
     }
 
 
     @Override
     public String toString() {
-        return "Library{" +
+        return "Library{" + "\n" +
                 "books=" + books +
                 '}';
     }
