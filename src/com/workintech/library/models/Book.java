@@ -83,15 +83,19 @@ public class Book {
         return Objects.hash(book_id);
     }
 
+
     @Override
     public String toString() {
-        return "Book{" +
-                "book_id=" + book_id +
-                ", author='" + author.getName() + '\'' +
-                ", title='" + title + '\'' +
-                ", status=" + status +
-                ", category=" + category +
-                '}';
-    }
 
+            return "Book{" +
+                    "book_id=" + book_id +
+                    ", author=" + author +
+                    ", title='" + title + '\'' +
+                    ", status=" + status +
+                    ", category=" + category +
+                    ", borrower=" + borrower +
+                    '}';
+
+
+    }
 }

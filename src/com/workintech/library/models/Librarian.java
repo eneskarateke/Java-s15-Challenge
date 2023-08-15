@@ -21,21 +21,25 @@ public class Librarian extends Person {
     }
 
     public void issueBook(Member member, Book book) {
-        if (!libraryProvider.bookExists(book)) {
-            System.out.println("Kitap kütüphanede bulunmuyor.");
-        } else if (!canLendBook(book)) {
-            System.out.println("Kitap başka bir üyede: " + book.getBorrower().getName() + " id: " + book.getBorrower().getMember_id());
-        } else if (member.hasIssuedBook(book)) {
-            System.out.println("Aynı kitaptan ödünç alamazsınız.");
-        } else if (!canIssueBook(member)) {
-            System.out.println("Kullanıcının kitap limitine ulaşıldı.");
-        } else {
-            book.setStatus(Status.BORROWED);
-            book.setBorrower(member);
-            member.getBooks_issued().add(book);
-            updateMemberBill(member);
-            System.out.println(book.getBook_id() + " id'li kitap " + member.getMember_id() + " id'li üye'ye ödünç verildi.");
+
+        if (member != null && book != null) {
+            if (!libraryProvider.bookExists(book)) {
+                System.out.println("Kitap kütüphanede bulunmuyor.");
+            } else if (!canLendBook(book)) {
+                System.out.println("Kitap başka bir üyede: " + book.getBorrower().getName() + " id: " + book.getBorrower().getMember_id());
+            } else if (member.hasIssuedBook(book)) {
+                System.out.println("Aynı kitaptan ödünç alamazsınız.");
+            } else if (!canIssueBook(member)) {
+                System.out.println("Kullanıcının kitap limitine ulaşıldı.");
+            } else {
+                book.setStatus(Status.BORROWED);
+                book.setBorrower(member);
+                member.getBooks_issued().add(book);
+                updateMemberBill(member);
+                System.out.println(book.getBook_id() + " id'li kitap " + member.getMember_id() + " id'li üye'ye ödünç verildi.");
+            }
         }
+
     }
 
 
@@ -51,6 +55,7 @@ public class Librarian extends Person {
             return false;
         }
     }
+
 
     private void updateMemberBill(Member member) {
         member.setBill(member.getBooks_issued().size() * 4.99);

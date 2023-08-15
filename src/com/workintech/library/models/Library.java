@@ -27,21 +27,44 @@ public class Library implements LibraryInterface {
             System.out.println("Book id:" + book.getBook_id() + "\n"
                     + "Author:" + book.getAuthor() + "\n"
                     +"Title: " + book.getTitle() +  "\n");
-        };
+        }
     }
 
-    public void addBook(int id,Book book){
+    public void addBook(Book book){
 
-        books.put(id,book);
+        if (!books.containsKey(book.getBook_id())) {
+            books.put(book.getBook_id(), book);
+            printBooks();
+        } else {
+            System.out.println("Bu id'li kitap halihazırda sistemde var!");
+        }
+
     }
 
     public void updateBook(int id,Book book){
-        books.put(id,book);
+
+        if (books.containsKey(book.getBook_id())) {
+            books.put(id,book);
+            printBooks();
+
+        } else {
+            System.out.println(id + " id'li kitap bulunamadı");
+        }
+
+
 
     }
 
-    public void deleteBook(int id,Book book){
-        books.remove(id,book);
+    public void deleteBook(int book_id){
+        Book book = books.get(book_id);
+
+        if (books.containsKey(book.getBook_id())) {
+            books.remove(book_id,book);
+            printBooks();
+
+        } else {
+            System.out.println(book_id + "'li kitap bulunamadı");
+        }
 
     }
 
@@ -49,7 +72,7 @@ public class Library implements LibraryInterface {
 
         try{
             for (Book book : books.values()) {
-                if (book.getCategory() == category) {
+                if (book.getCategory().equals(category)) {
                     System.out.println(book);            }
             }
         }  catch (Exception exception) {

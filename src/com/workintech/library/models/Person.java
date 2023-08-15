@@ -1,5 +1,7 @@
 package com.workintech.library.models;
 
+import java.util.Objects;
+
 public class Person {
     private String name;
     private Role role;
@@ -17,11 +19,20 @@ public class Person {
         this.name = name;
     }
 
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
