@@ -23,7 +23,7 @@ public class Member extends Person{
         this.address = address;
         this.phone_number = phone_number;
         this.books_issued=new HashSet<>();
-        this.bill = books_issued.size()*4.99;
+        this.bill =0;
     }
 
 
@@ -82,6 +82,7 @@ public class Member extends Person{
             removeIssuedBook(book);
             book.setBorrower(null);
             book.setStatus(Status.AVAILABLE);
+
 
             return true;
         }

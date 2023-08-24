@@ -4,5 +4,5 @@ public enum Role {
     READER,
     AUTHOR,
     LIBRARIAN,
-    MEMBER
+
 }

@@ -1,14 +1,14 @@
 package com.workintech.library.models;
 
-public class Librarian extends Person {
+public class Librarian extends Person  {
     private String password;
-    private LibraryInterface libraryProvider;
+    private LibraryInterface library;
 
 
-    public Librarian(String name, String password,LibraryInterface libraryProvider) {
+    public Librarian(String name, String password,LibraryInterface library) {
         super(name, Role.LIBRARIAN);
         this.password = password;
-        this.libraryProvider = libraryProvider;
+        this.library = library;
 
     }
 
@@ -21,26 +21,40 @@ public class Librarian extends Person {
     }
 
     public void issueBook(Member member, Book book) {
-
-        if (member != null && book != null) {
-            if (!libraryProvider.bookExists(book)) {
-                System.out.println("Kitap kütüphanede bulunmuyor.");
-            } else if (!canLendBook(book)) {
-                System.out.println("Kitap başka bir üyede: " + book.getBorrower().getName() + " id: " + book.getBorrower().getMember_id());
-            } else if (member.hasIssuedBook(book)) {
-                System.out.println("Aynı kitaptan ödünç alamazsınız.");
-            } else if (!canIssueBook(member)) {
-                System.out.println("Kullanıcının kitap limitine ulaşıldı.");
-            } else {
-                book.setStatus(Status.BORROWED);
-                book.setBorrower(member);
-                member.getBooks_issued().add(book);
-                updateMemberBill(member);
-                System.out.println(book.getBook_id() + " id'li kitap " + member.getMember_id() + " id'li üye'ye ödünç verildi.");
-            }
+        if (member == null || book == null) {
+            System.out.println("Hata! Geçersiz üye veya kitap.");
+            return;
         }
 
+        if (!library.bookExists(book)) {
+            System.out.println("Kitap kütüphanede bulunmuyor.");
+            return;
+        }
+
+        if (!canIssueBook(member)) {
+            System.out.println("Kullanıcının kitap limitine ulaşıldı.");
+            return;
+        }
+
+        if (!canLendBook(book)) {
+            System.out.println("Kitap başka bir üyede: " + book.getBorrower().getName() + " id: " + book.getBorrower().getMember_id());
+            return;
+        }
+
+        if (member.hasIssuedBook(book)) {
+            System.out.println("Aynı kitaptan ödünç alamazsınız.");
+            return;
+        }
+
+        // All checks passed, issue the book
+        book.setStatus(Status.BORROWED);
+        book.setBorrower(member);
+        member.getBooks_issued().add(book);
+        updateMemberBill(member);
+
+        System.out.println(book.getBook_id() + " id'li kitap " + member.getMember_id() + " id'li üye'ye ödünç verildi.");
     }
+
 
 
     private boolean canIssueBook(Member member) {
@@ -51,13 +65,13 @@ public class Librarian extends Person {
         if (book.getStatus() == Status.AVAILABLE){
             return true;
         } else {
-            System.out.println("Kitap başkasında");
+            System.out.println("Kitap başkasında " + book.getBorrower().getName());
             return false;
         }
     }
 
 
-    private void updateMemberBill(Member member) {
+    protected void updateMemberBill(Member member) {
         member.setBill(member.getBooks_issued().size() * 4.99);
     }
 
